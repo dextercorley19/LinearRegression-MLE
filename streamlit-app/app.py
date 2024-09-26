@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from scipy.stats import norm
+from ordinary_least_squares import generate_sample_data, generate_ols_plot
 
 # Title of the app
 st.title("MLE Simulation for Normal Distribution")
@@ -45,3 +46,40 @@ plt.xlabel('Value')
 plt.ylabel('Density')
 plt.legend()
 st.pyplot(plt)
+
+
+# OLS Parameter Estimation
+
+# Page break
+st.write('')
+
+st.title('Estimating Paramters in Ordinary Least Squares')
+
+# Generate and show x and Y data
+x_sample, y_sample, x_randoms, y_randoms = generate_sample_data(10)
+
+st.write('### Sample observations and responses')
+st.write(f'x = {", ".join(str(round(x, 1)) for x in x_sample)}')
+st.write(f'y = {", ".join(str(round(y, 1)) for y in y_sample)}')
+
+st.write('### Methodology')
+
+st.write('In OLS regression, we have 3 unknown parameters: B0, B1, and σ. \
+         For each point in the data, we create a normal distribution with mean B0-B1Xi \
+         and variance sima^2. This distribution represents the likelihood of obtaining our sample \
+         response, yi for a given input xi with our chosen set of parameters B0, B1, and sigma. \
+         We want to choose these parameters such that we maximize the probability of obtaining \
+         our sample response for each data point.')
+
+st.write('')
+
+B0 = st.slider('Intercept (B0)', min_value=-20.0, max_value=20.0, value=0.0)
+B1 = st.slider('Slope (B1)', min_value=-20.0, max_value=20.0, value=1.0)
+sigma2 = st.slider('Variance (σ²)', min_value=0.1, max_value=50.0, value=1.0)
+
+# Plot sample data
+
+fig, ax = generate_ols_plot(x_randoms, y_randoms, B0, B1, sigma2)
+
+st.pyplot(fig)
+
