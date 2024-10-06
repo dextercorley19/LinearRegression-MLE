@@ -121,7 +121,7 @@ alphas = st.slider("Choose range for λ (regularization strength)",
                     0.01, 100.0, (0.01, 50.0), step=0.5)
 n_alphas = st.slider("Number of λ points", 10, 100, 50)
 
-# 5. Compute Ridge Regression Coefficients for multiple values of λ
+# Compute Ridge Regression Coefficients for multiple values of λ
 alpha_values = np.linspace(alphas[0], alphas[1], n_alphas)
 coefficients = np.zeros((n_alphas, X.shape[1]))
 
@@ -129,7 +129,7 @@ for i, alpha in enumerate(alpha_values):
     coef, intercept = fit_ridge_regression(X, y, alpha)
     coefficients[i, :] = coef
 
-# 6. Plot the coefficients as a function of λ
+# Plot the coefficients as a function of λ
 fig = plot_ridge_coefficients(alpha_values, coefficients)
 
 st.plotly_chart(fig)
@@ -139,16 +139,16 @@ st.plotly_chart(fig)
 st.subheader("Deriving Ridge Regression Coefficients")
 X, y = generate_likelihood_data(n_samples=100, noise=5)
 
-# 5. Sliders for the Parameters
+# Sliders for the Parameters
 lambd = st.slider("λ (Regularization Strength)", 0.01, 10.0, 1.0, step=0.1)
 beta_0 = st.slider("β₀ (Intercept)", -10.0, 10.0, 1.0, step=0.1)
 beta_1 = st.slider("β₁ (Slope)", -10.0, 10.0, 2.0, step=0.1)
 
-# 6. Plot the Likelihood Function
+# Plot the Likelihood Function
 st.subheader("Ridge Likelihood Contour Plot")
 fig = plot_likelihood(X, y, lambd)
 st.plotly_chart(fig)
 
-# 7. Calculate and Display Likelihood at the Slider Values
+# Calculate and Display Likelihood at the Slider Values
 likelihood = ridge_likelihood(beta_0, beta_1, X, y, lambd)
 st.write(f"Likelihood at β₀ = {beta_0}, β₁ = {beta_1}, λ = {lambd}: {likelihood:.2f}")
