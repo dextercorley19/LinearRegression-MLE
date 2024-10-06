@@ -83,3 +83,21 @@ fig, ax = generate_ols_plot(x_randoms, y_randoms, B0, B1, sigma2)
 
 st.pyplot(fig)
 
+st.write('By combining each of these distributions into one likelihood function, we are able \
+    to determine how well a set of coefficients fits the entire sample dataset. This overall \
+        likelihood takes the following form:')
+
+st.latex(r"""
+    L(\beta_0, \beta_1, \sigma^2 | y, X) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi \sigma^2}} 
+    \exp\left( -\frac{(y_i - \beta_0 - \beta_1 X_i)^2}{2\sigma^2} \right)
+    """)
+
+st.write('Which can be simplified to the following equation:')
+
+st.latex(r"""
+    L(\beta_0, \beta_1, \sigma^2 | y, X) = \left( \frac{1}{\sqrt{2\pi \sigma^2}} \right)^n 
+    \exp\left( -\frac{1}{2\sigma^2} \sum_{i=1}^{n} (y_i - \beta_0 - \beta_1 X_i)^2 \right)
+    """)
+
+st.write('For the simple linear regression problem, this equation has a closed form solution which \
+    yield the regression coefficients that maximize likelikehood across the entire sample dataset.')
