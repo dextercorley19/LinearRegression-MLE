@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from scipy.stats import norm
 from ordinary_least_squares import generate_sample_data, generate_ols_plot
+from ridge_regression import (generate_data, fit_ridge_regression, plot_ridge_coefficients, 
+                              display_data, show_description, show_ridge_formula,
+                                generate_likelihood_data, ridge_likelihood, plot_likelihood)
 
 # Title of the app
 st.title("MLE Simulation for Normal Distribution")
@@ -101,3 +104,51 @@ st.latex(r"""
 
 st.write('For the simple linear regression problem, this equation has a closed form solution which \
     yield the regression coefficients that maximize likelikehood across the entire sample dataset.')
+
+
+# Ridge Regression
+
+st.write('')
+
+st.title('Estimating Paramters in Ridge Regression')
+
+st.subheader("What is Ridge Regression?")
+show_description()
+show_ridge_formula()
+
+X, y = generate_data(n_samples=100, n_features=5, noise=15)
+alphas = st.slider("Choose range for λ (regularization strength)",
+                    0.01, 100.0, (0.01, 50.0), step=0.5)
+n_alphas = st.slider("Number of λ points", 10, 100, 50)
+
+# 5. Compute Ridge Regression Coefficients for multiple values of λ
+alpha_values = np.linspace(alphas[0], alphas[1], n_alphas)
+coefficients = np.zeros((n_alphas, X.shape[1]))
+
+for i, alpha in enumerate(alpha_values):
+    coef, intercept = fit_ridge_regression(X, y, alpha)
+    coefficients[i, :] = coef
+
+# 6. Plot the coefficients as a function of λ
+fig = plot_ridge_coefficients(alpha_values, coefficients)
+
+st.plotly_chart(fig)
+
+# Maximum likelihood estimate
+
+st.subheader("Deriving Ridge Regression Coefficients")
+X, y = generate_likelihood_data(n_samples=100, noise=5)
+
+# 5. Sliders for the Parameters
+lambd = st.slider("λ (Regularization Strength)", 0.01, 10.0, 1.0, step=0.1)
+beta_0 = st.slider("β₀ (Intercept)", -10.0, 10.0, 1.0, step=0.1)
+beta_1 = st.slider("β₁ (Slope)", -10.0, 10.0, 2.0, step=0.1)
+
+# 6. Plot the Likelihood Function
+st.subheader("Ridge Likelihood Contour Plot")
+fig = plot_likelihood(X, y, lambd)
+st.plotly_chart(fig)
+
+# 7. Calculate and Display Likelihood at the Slider Values
+likelihood = ridge_likelihood(beta_0, beta_1, X, y, lambd)
+st.write(f"Likelihood at β₀ = {beta_0}, β₁ = {beta_1}, λ = {lambd}: {likelihood:.2f}")
