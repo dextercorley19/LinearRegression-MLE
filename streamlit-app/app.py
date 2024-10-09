@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from scipy.stats import norm
 from ordinary_least_squares import generate_sample_data, generate_ols_plot
-from ridge_regression import (generate_data, fit_ridge_regression, plot_ridge_coefficients, 
-                              display_data, show_description, show_ridge_formula,
+from ridge_regression import (generate_data, fit_ridge_regression, plot_ridge_coefficients,
+                              show_description, show_ridge_formula,
                                 generate_likelihood_data, ridge_likelihood, plot_likelihood)
-
+from lasso_regression import *
 # Title of the app
 st.title("MLE Simulation for Normal Distribution")
 
@@ -151,4 +151,53 @@ st.plotly_chart(fig)
 
 # Calculate and Display Likelihood at the Slider Values
 likelihood = ridge_likelihood(beta_0, beta_1, X, y, lambd)
+st.write(f"Likelihood at β₀ = {beta_0}, β₁ = {beta_1}, λ = {lambd}: {likelihood:.2f}")
+
+# Lasso Regression
+
+st.write('')
+
+st.title('Estimating Parameters in Lasso Regression')
+
+st.subheader("What is Lasso Regression?")
+show_description_lasso()  # Description for Lasso
+show_lasso_formula()  # Formula for Lasso
+
+# Generate data
+X, y = generate_data_lasso(n_samples=100, n_features=5, noise=15)
+
+# Sliders for Lasso regularization strength with unique keys
+alphas = st.slider("Choose range for λ (regularization strength)",
+                    0.01, 100.0, (0.01, 50.0), step=0.5, key="lasso_alpha_slider")
+n_alphas = st.slider("Number of λ points", 10, 100, 50, key="lasso_n_alpha_slider")
+
+# Compute Lasso Regression Coefficients for multiple values of λ
+alpha_values = np.linspace(alphas[0], alphas[1], n_alphas)
+coefficients = np.zeros((n_alphas, X.shape[1]))
+
+for i, alpha in enumerate(alpha_values):
+    coef, intercept = fit_lasso_regression(X, y, alpha)
+    coefficients[i, :] = coef
+
+# Plot the coefficients as a function of λ
+fig = plot_lasso_coefficients(alpha_values, coefficients)
+st.plotly_chart(fig)
+
+# Maximum likelihood estimate for Lasso
+
+st.subheader("Deriving Lasso Regression Coefficients")
+X, y = generate_likelihood_data_lasso(n_samples=100, noise=5)
+
+# Sliders for the Parameters with unique keys
+lambd = st.slider("λ (Regularization Strength)", 0.01, 10.0, 1.0, step=0.1, key="lasso_lambd_slider")
+beta_0 = st.slider("β₀ (Intercept)", -10.0, 10.0, 1.0, step=0.1, key="lasso_beta_0_slider")
+beta_1 = st.slider("β₁ (Slope)", -10.0, 10.0, 2.0, step=0.1, key="lasso_beta_1_slider")
+
+# Plot the Likelihood Function for Lasso
+st.subheader("Lasso Likelihood Contour Plot")
+fig = plot_likelihood_lasso(X, y, lambd)
+st.plotly_chart(fig)
+
+# Calculate and Display Likelihood at the Slider Values
+likelihood = lasso_likelihood(beta_0, beta_1, X, y, lambd)
 st.write(f"Likelihood at β₀ = {beta_0}, β₁ = {beta_1}, λ = {lambd}: {likelihood:.2f}")
