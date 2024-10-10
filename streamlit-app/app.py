@@ -5,11 +5,7 @@ import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from scipy.stats import norm
 from ordinary_least_squares import generate_sample_data, generate_ols_plot
-<<<<<<< HEAD
-from ridge_regression import (generate_data, fit_ridge_regression, plot_ridge_coefficients, 
-=======
 from ridge_regression import (generate_data, fit_ridge_regression, plot_ridge_coefficients,
->>>>>>> 03553e21678aab002728563c0090d3dc2203c692
                               show_description, show_ridge_formula,
                                 generate_likelihood_data, ridge_likelihood, plot_likelihood)
 from lasso_regression import *
