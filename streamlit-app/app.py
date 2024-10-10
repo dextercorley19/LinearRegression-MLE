@@ -6,7 +6,7 @@ import statsmodels.api as sm
 from scipy.stats import norm
 from ordinary_least_squares import generate_sample_data, generate_ols_plot
 from ridge_regression import (generate_data, fit_ridge_regression, plot_ridge_coefficients, 
-                              display_data, show_description, show_ridge_formula,
+                              show_description, show_ridge_formula,
                                 generate_likelihood_data, ridge_likelihood, plot_likelihood)
 
 # Title of the app
