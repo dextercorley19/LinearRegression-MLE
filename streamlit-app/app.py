@@ -103,6 +103,7 @@ st.latex(r"""
     """)
 
 st.write('For the simple linear regression problem, this equation has a closed form solution which \
+
     yield the regression coefficients that maximize likelikehood across the entire sample dataset.')
 
 
@@ -201,3 +202,6 @@ st.plotly_chart(fig)
 # Calculate and Display Likelihood at the Slider Values
 likelihood = lasso_likelihood(beta_0, beta_1, X, y, lambd)
 st.write(f"Likelihood at β₀ = {beta_0}, β₁ = {beta_1}, λ = {lambd}: {likelihood:.2f}")
+
+    yield the regression coefficients that maximize likelikehood across the entire sample dataset.')
+
