@@ -25,7 +25,7 @@ git clone https://github.com/dextercorley19/LinearRegression-MLE
 Next, build the Docker image using the Dockerfile provided in the repository:
 
 ```bash
-cd streamlit-app
+cd LinearRegression-MLE/streamlit-app
 docker compose up --build
 ```
 
