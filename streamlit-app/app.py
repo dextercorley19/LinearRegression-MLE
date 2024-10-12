@@ -12,6 +12,19 @@ from lasso_regression import *
 # Title of the app
 st.title("MLE Simulation for Normal Distribution")
 
+
+#Brief description
+st.write('As discussed in section 2 of the accompanying Medium article, Maximum Likelihood \
+        Estimation (MLE) is a powerful statistical tool that helps determine the probability of \
+        observing a given set of data, based on a model’s parameters. In this simulation,\
+        we apply MLE to fit a normal distribution to a set of observations. The objective \
+        is to find the mean (μ) and variance (σ²) that best describe the data. Using the \
+        sliders, you can interactively adjust these parameters, and the simulation will\
+        calculate the corresponding log-likelihood value, which indicates how well the selected\
+        parameters fit the data. The plot below visualizes the normal distribution for your chosen\
+        parameters alongside the actual data, allowing you to see how the fit changes with \
+        different values of μ and σ².')
+
 # Given data
 Y = np.array([78.0, 95.5, 100.3, 100.6, 102.8, 107.8, 109.1, 110.8, 113.9, 125.0])
 n = len(Y)
@@ -58,23 +71,27 @@ st.write('')
 
 st.title('Estimating Paramters in Ordinary Least Squares')
 
+st.write('This simulation demonstrates how the parameters in Ordinary Least Squares (OLS) \
+    regression can be estimated using Maximum Likelihood Estimation (MLE). In OLS, the goal \
+    is to find the best-fitting line for a set of data by estimating three parameters: the \
+    intercept (B₀), the slope (B₁), and the variance (σ²). For each data point, we assume \
+    that the response variable follows a normal distribution with a mean determined by the \
+    regression line (B₀ + B₁Xᵢ) and a variance of σ².')
+
+st.write('')
+
+st.write('By adjusting the sliders, you can interactively modify these parameters, and the \
+    simulation will show how well your chosen values fit the data. The overall fit is assessed \
+    using a likelihood function, which combines the individual likelihoods of each data point \
+    to determine the best-fitting line.')
+    
+
 # Generate and show x and Y data
 x_sample, y_sample, x_randoms, y_randoms = generate_sample_data(10)
 
 st.write('### Sample observations and responses')
 st.write(f'x = {", ".join(str(round(x, 1)) for x in x_sample)}')
 st.write(f'y = {", ".join(str(round(y, 1)) for y in y_sample)}')
-
-st.write('### Methodology')
-
-st.write('In OLS regression, we have 3 unknown parameters: B0, B1, and σ. \
-         For each point in the data, we create a normal distribution with mean B0-B1Xi \
-         and variance sima^2. This distribution represents the likelihood of obtaining our sample \
-         response, yi for a given input xi with our chosen set of parameters B0, B1, and sigma. \
-         We want to choose these parameters such that we maximize the probability of obtaining \
-         our sample response for each data point.')
-
-st.write('')
 
 B0 = st.slider('Intercept (B0)', min_value=-20.0, max_value=20.0, value=0.0)
 B1 = st.slider('Slope (B1)', min_value=-20.0, max_value=20.0, value=1.0)
@@ -86,24 +103,24 @@ fig, ax = generate_ols_plot(x_randoms, y_randoms, B0, B1, sigma2)
 
 st.pyplot(fig)
 
-st.write('By combining each of these distributions into one likelihood function, we are able \
-    to determine how well a set of coefficients fits the entire sample dataset. This overall \
-        likelihood takes the following form:')
+# st.write('By combining each of these distributions into one likelihood function, we are able \
+#     to determine how well a set of coefficients fits the entire sample dataset. This overall \
+#         likelihood takes the following form:')
 
-st.latex(r"""
-    L(\beta_0, \beta_1, \sigma^2 | y, X) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi \sigma^2}} 
-    \exp\left( -\frac{(y_i - \beta_0 - \beta_1 X_i)^2}{2\sigma^2} \right)
-    """)
+# st.latex(r"""
+#     L(\beta_0, \beta_1, \sigma^2 | y, X) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi \sigma^2}} 
+#     \exp\left( -\frac{(y_i - \beta_0 - \beta_1 X_i)^2}{2\sigma^2} \right)
+#     """)
 
-st.write('Which can be simplified to the following equation:')
+# st.write('Which can be simplified to the following equation:')
 
-st.latex(r"""
-    L(\beta_0, \beta_1, \sigma^2 | y, X) = \left( \frac{1}{\sqrt{2\pi \sigma^2}} \right)^n 
-    \exp\left( -\frac{1}{2\sigma^2} \sum_{i=1}^{n} (y_i - \beta_0 - \beta_1 X_i)^2 \right)
-    """)
+# st.latex(r"""
+#     L(\beta_0, \beta_1, \sigma^2 | y, X) = \left( \frac{1}{\sqrt{2\pi \sigma^2}} \right)^n 
+#     \exp\left( -\frac{1}{2\sigma^2} \sum_{i=1}^{n} (y_i - \beta_0 - \beta_1 X_i)^2 \right)
+#     """)
 
-st.write('For the simple linear regression problem, this equation has a closed form solution which '
-         'yields the regression coefficients that maximize likelihood across the entire sample dataset.')
+# st.write('For the simple linear regression problem, this equation has a closed form solution which '
+#          'yields the regression coefficients that maximize likelihood across the entire sample dataset.')
 
 # Ridge Regression
 
@@ -114,6 +131,11 @@ st.title('Estimating Paramters in Ridge Regression')
 st.subheader("What is Ridge Regression?")
 show_description()
 show_ridge_formula()
+st.write('')
+st.write('In this simulation, you can adjust the range of λ values and observe how the regression coefficients change. The visualization shows how the coefficients evolve as λ increases, illustrating the impact of regularization on the model.')
+st.write('')
+st.write('Additionally, the second part of this simulation provides a deeper look into how the Ridge Regression coefficients are derived using Maximum Likelihood Estimation (MLE). By adjusting λ, β₀ (intercept), and β₁ (slope), you can observe how the likelihood function changes, and explore how these parameters influence the fit of the model. This fit is shown in the contour plot which describes the likelihood function for a given set of input parameters. ')
+
 
 X, y = generate_data(n_samples=100, n_features=5, noise=15)
 alphas = st.slider("Choose range for λ (regularization strength)",
@@ -161,6 +183,11 @@ st.title('Estimating Parameters in Lasso Regression')
 st.subheader("What is Lasso Regression?")
 show_description_lasso()  # Description for Lasso
 show_lasso_formula()  # Formula for Lasso
+
+st.write('In this simulation, you can adjust the regularization strength λ to see how the coefficients change as you increase the penalty for larger coefficients. The plot shows how different values of λ affect the coefficients of the model, highlighting Lasso’s ability to reduce less important coefficients to zero.')
+st.write('')
+st.write('Additionally, the second part of this simulation demonstrates how the coefficients in Lasso Regression can be derived using Maximum Likelihood Estimation (MLE). By modifying parameters such as λ, β₀ (intercept), and β₁ (slope), you can explore how the likelihood function changes. The interactive contour plot visualizes the likelihood surface, offering insights into how different parameter values impact the fit of the model.')
+
 
 # Generate data
 X, y = generate_data_lasso(n_samples=100, n_features=5, noise=15)
