@@ -1,21 +1,48 @@
-#### MLE for LS estimators - ridge and lasso
+## Maximum Likelihood Estimators
 
-1. Sim data
-2. Basic description of MLE
-3. Applying to linear regression
-Dashboards & derivations for:
-    - MLE LS estimators
-    - MLE for ridge
-    - MLE for lasso
-    - MLE for polynomial (if time permits)
+### An exploration of MLE for OLS, Ridge, and Lasso Linear Regression
 
-#### Implementation
+#### This guide will walk you through how to run the Streamlit app using Docker.
 
-1. Streamlit configuration
-2. Medium post
-3. Explore plotly for embedding dashboards
+##### Prerequisites
 
-#### To-dos Wed-Fri
+Before getting started, ensure that you have the following installed:
 
-Eli & Walker: writing first draft
-John & Dex: focus on streamlit# LinearRegression-MLE
+- Docker
+- Git
+
+##### Clone the Repository
+
+First, clone the GitHub repository containing the Streamlit app:
+
+```bash
+cd path/to/destination/dir
+git clone https://github.com/dextercorley19/LinearRegression-MLE
+```
+
+##### Build the Docker Image
+
+Next, build the Docker image using the Dockerfile provided in the repository:
+
+```bash
+cd streamlit-app
+docker compose up --build
+```
+
+##### Access the App
+
+After running the container, open your web browser and go to:
+
+http://localhost:8501
+
+
+##### Stopping the Container
+
+To stop the running container, press CTRL+C in the terminal where the container is running.
+
+##### To remove the container and image after use, you can run:
+
+```bash
+docker rm <container-id>
+docker rmi streamlit-app
+```
